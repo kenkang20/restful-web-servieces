@@ -2,7 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const db = mongoose.connect('mongodb://localhost:27017/bookAPI');
+let db;
+
+if (process.env.ENV == 'Test') 
+    db = mongoose.connect('mongodb://localhost:27017/bookAPI_test');
+else
+    db = mongoose.connect('mongodb://localhost:27017/bookAPI');
+
 const Book = require('./models/bookModel');
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,3 +28,5 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log('Gulp is running my app on PORT: ' + port);
 });
+
+module.exports = app;
